@@ -124,19 +124,19 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        tokens = args.split()
+        tokens = tokenize(args)
 
         # extract class name and params
         class_name = tokens[0]
         params = tokens[1:]
 
-        if not args:
+        if args == "":
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
+        new_instance = HBNBCommand.classes[class_name]()
 
         for param in params:
             try:
@@ -162,13 +162,6 @@ class HBNBCommand(cmd.Cmd):
         storage.save()
         print(new_instance.id)
         storage.save()
-
-    def delete(self, obj=None):
-        if obj:
-            # get key
-            key = f"{type(obj).__name__}.{obj.id}"
-            del self.__objects[key]
-
 
     def help_create(self):
         """ Help information for the create method """
