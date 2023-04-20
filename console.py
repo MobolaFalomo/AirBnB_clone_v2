@@ -11,6 +11,15 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
+def tokenize(args: str) -> list:
+    """Tokenizer
+    Args:
+        args (str): Description
+    Returns:
+        list: Description
+    """
+    token = args.split()
+    return token
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
@@ -139,7 +148,7 @@ class HBNBCommand(cmd.Cmd):
 		if v[0] == '"' and v[-1] == '"' and len(v) > 1:
 		    v = v[1:-1]
                 # if the value contains .
-                if "." in v:
+                elif "." in v:
 		    # convert to a float
 		    v = float(v)
 	        else:
@@ -153,6 +162,13 @@ class HBNBCommand(cmd.Cmd):
         storage.save()
         print(new_instance.id)
         storage.save()
+
+    def delete(self, obj=None):
+        if obj:
+            # get key
+            key = f"{type(obj).__name__}.{obj.id}"
+            del self.__objects[key]
+
 
     def help_create(self):
         """ Help information for the create method """
